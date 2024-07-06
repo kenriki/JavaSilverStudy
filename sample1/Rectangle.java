@@ -1,6 +1,6 @@
 package demo.sample1;
 
-public class Rectangle extends Shape {
+public non-sealed class Rectangle extends Shape {
 
     // メンバー変数：幅、高さ
     private double width;

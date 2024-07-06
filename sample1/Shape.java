@@ -1,7 +1,7 @@
 package demo.sample1;
 
 // Shape クラス（抽象クラス）
-abstract class Shape {
+abstract sealed class Shape permits Triangle, Rectangle {
     // 面積を計算して返す抽象メソッド
     abstract double getArea();
 

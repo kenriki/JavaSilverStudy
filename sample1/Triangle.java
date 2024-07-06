@@ -1,7 +1,7 @@
 package demo.sample1;
 
 // Triangle クラス（三角形）
-class Triangle extends Shape {
+non-sealed class Triangle extends Shape {
     // メンバー変数：辺の長さ（3辺）
     private double side1;
     private double side2;

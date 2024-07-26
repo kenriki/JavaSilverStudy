@@ -3,9 +3,9 @@ package demo.sample2;
 import java.math.BigDecimal;
 
 // BMI値計算クラス（抽象クラス）
-abstract public class WeightBMI {
+abstract sealed public class WeightBMI extends FxBase permits HealthChecker{
     // BMIを計算して返す抽象メソッド
-    protected abstract BigDecimal getValueBMI();
+    protected abstract BigDecimal getValueBMI(HealthInput in);
 
     // BMIを計算して判定結果を返す抽象メソッド
     protected abstract String getValueBMIStyle(BigDecimal x);

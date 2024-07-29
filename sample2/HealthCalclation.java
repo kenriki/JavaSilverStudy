@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 // BMI値計算クラス（抽象クラス）
-abstract sealed public class WeightBMI extends FxBase permits HealthChecker{
+abstract sealed public class HealthCalclation extends FxBase permits HealthChecker{
     // BMIを計算して返す抽象メソッド
     protected abstract BigDecimal getValueBMI(HealthInput in) throws IOException;
 

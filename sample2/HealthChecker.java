@@ -31,8 +31,9 @@ import javafx.stage.Stage;
 /**
  * 健康管理メインクラス
  */
-public non-sealed class HealthChecker extends WeightBMI {
+public non-sealed class HealthChecker extends HealthCalclation {
 
+	// TODO Javaのゴールドの範囲になるが、プロパティファイルにまとめたい
 	private final String TITLE = "BMI計測ツール";
 	private final String LABEL_1 = "身長";
 	private final String LABEL_2 = "体重";
@@ -113,7 +114,9 @@ public non-sealed class HealthChecker extends WeightBMI {
 	protected String getValueBMIStyle(BigDecimal bmi) {
 		BigDecimal diff1 = new BigDecimal(18.5); //低体重
 		BigDecimal diff2 = new BigDecimal(25); //標準体重
-
+		BigDecimal diff3 = new BigDecimal(26);
+		BigDecimal diff4 = new BigDecimal(36);
+		BigDecimal diff5 = new BigDecimal(40);
 		//		25-30未満	肥満（１度）
 		//		30-35未満	肥満（２度）
 		//		35-40未満	肥満（３度）
@@ -121,13 +124,22 @@ public non-sealed class HealthChecker extends WeightBMI {
 
 		int result1 = bmi.compareTo(diff1);
 		int result2 = bmi.compareTo(diff2);
+		int result3 = bmi.compareTo(diff3);//25-user
+		int result4 = bmi.compareTo(diff4);//30-user
+		int result5 = bmi.compareTo(diff5);//35-user
 
 		if (result1 == -1) {
 			return "低体重";
-		} else if (result2 == -1) {
+		} if (result2 == -1) {
 			return "標準体重";
+		} else if (result3 == -1) {
+			return "肥満（1度)";
+		} else if (result4 == -1) {
+			return "肥満（2度)";
+		} else if (result5 == -1) {
+			return "肥満（3度)";
 		} else {
-			return "肥満";
+			return "肥満（4度)";
 		}
 	}
 

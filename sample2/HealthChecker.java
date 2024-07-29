@@ -39,8 +39,9 @@ public non-sealed class HealthChecker extends WeightBMI {
 	private final String BUTTON_1 = "計測";
 	private final String OUTPUT_FILE_NAME = "data.csv";
 	private final String comma = ",";
-	private final String ERR_MSG_1 = "【未入力エラー】必須入力欄が未入力となっています。";
-
+	private final String ERR_MSG_1 = "【未入力エラー】\r\n 必須入力欄が未入力となっています。";
+	private final String ERR_MSG_2 = "【実行時エラー】\r\n インプットデータ(data.csv)がありません。\r\n 次の画面で身長、体重を入力して計測を開始してください。";
+	
 	public static void main(String... args) {
 		launch(args);
 	}
@@ -71,7 +72,7 @@ public non-sealed class HealthChecker extends WeightBMI {
 	 */
 	private void saveCsvFile(String bmiStyleResult, BigDecimal result, HealthInput input) throws IOException {
 		// csvに入力値とBMI結果を保持
-		FileWriter csvWriter = new FileWriter(OUTPUT_FILE_NAME,true);
+		FileWriter csvWriter = new FileWriter(OUTPUT_FILE_NAME, true);
 		PrintWriter pw = new PrintWriter(new BufferedWriter(csvWriter));
 		pw.print((double) input.height() + comma);
 		pw.print((double) input.weight() + comma);
@@ -147,9 +148,19 @@ public non-sealed class HealthChecker extends WeightBMI {
 
 		// 前回のデータ取得して設定
 		String[] data = readCsvSplit();
-		textHeightField.setText(data[0]);
-		textWeightField.setText(data[1]);
-		textSokuteiResultField.setText(data[2]);
+		if (data == null) {
+			Alert alert = new Alert(AlertType.ERROR, ERR_MSG_2, ButtonType.OK);
+			Optional opt = alert.showAndWait();
+			if (opt.get() == ButtonType.OK) {
+				textHeightField.setText("0.0");
+				textWeightField.setText("0.0");
+				textSokuteiResultField.setText("");
+			}
+		} else {
+			textHeightField.setText(data[0]);
+			textWeightField.setText(data[1]);
+			textSokuteiResultField.setText(data[2]);
+		}
 
 		// 身長、体重を入力するエリアの準備
 		textHeightField.setMaxWidth(200);

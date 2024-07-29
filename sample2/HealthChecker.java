@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -41,7 +42,7 @@ public non-sealed class HealthChecker extends WeightBMI {
 	private final String comma = ",";
 	private final String ERR_MSG_1 = "【未入力エラー】\r\n 必須入力欄が未入力となっています。";
 	private final String ERR_MSG_2 = "【実行時エラー】\r\n インプットデータ(data.csv)がありません。\r\n 次の画面で身長、体重を入力して計測を開始してください。";
-	
+
 	public static void main(String... args) {
 		launch(args);
 	}
@@ -77,7 +78,8 @@ public non-sealed class HealthChecker extends WeightBMI {
 		pw.print((double) input.height() + comma);
 		pw.print((double) input.weight() + comma);
 		pw.print(bmiStyleResult + "/");
-		pw.println(result.doubleValue());
+		pw.print(result.doubleValue() + comma);
+		pw.println(getDate());
 		pw.close();
 	}
 
@@ -129,6 +131,9 @@ public non-sealed class HealthChecker extends WeightBMI {
 		}
 	}
 
+	/**
+	 * JavaFXのコンポーネント
+	 */
 	@Override
 	public void start(Stage arg0) throws Exception {
 		// パネル定義
@@ -147,7 +152,18 @@ public non-sealed class HealthChecker extends WeightBMI {
 		TextField textSokuteiResultField = new TextField();
 
 		// 前回のデータ取得して設定
-		String[] data = readCsvSplit();
+		int hantei = (!fileExists()) == false ? 0 : 1;
+		String[] data = null;
+		if (hantei == 1) {
+			data = readCsvSplit();
+		} else {
+			// ファイルが見つからない場合は新たに作成する
+			File file = new File(OUTPUT_FILE_NAME);
+			file.createNewFile();
+			textHeightField.setText("0.0");
+			textWeightField.setText("0.0");
+			textSokuteiResultField.setText("");
+		}
 		if (data == null) {
 			Alert alert = new Alert(AlertType.ERROR, ERR_MSG_2, ButtonType.OK);
 			Optional opt = alert.showAndWait();
@@ -237,4 +253,25 @@ public non-sealed class HealthChecker extends WeightBMI {
 
 	}
 
+	/**
+	 * 今日の日付を取得する
+	 */
+	@Override
+	protected LocalDate getDate() {
+		return LocalDate.now();
+	}
+
+	/**
+	 * ファイル存在チェック
+	 * @return
+	 */
+	@Override
+	protected boolean fileExists() {
+		boolean b = false;
+		File file = new File(OUTPUT_FILE_NAME);
+		if (!file.exists()) {
+			b = true;
+		}
+		return b;
+	}
 }

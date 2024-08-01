@@ -3,7 +3,8 @@
 # Javafxの実行準備
 
 以下から自分の環境にあうJavafxのSDKをインストールする  
-[https://gluonhq.com/products/javafx/](https://gluonhq.com/products/javafx/)
+[https://gluonhq.com/products/javafx/](https://gluonhq.com/products/javafx/)  
+
 コマンドプロンプトで、以下のコマンドを実行します。  
 
 ```
